@@ -1,0 +1,40 @@
+.login-form {
+    
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 5vw 0;
+}
+
+.login-form > div {
+    background-color: white;
+    border-radius: 10px;
+    padding: 30px;
+    margin: 25px;
+    box-shadow: 0px 1px 10px #0000001a;
+}
+
+.form-inputs {
+    margin: 20px;
+}
+
+.form-inputs > label {
+    font-weight: 600;
+}
+
+.form-inputs > input {
+    margin: 10px 0;
+    padding: 8px 9px;
+    border: 1px solid rgba(0, 0, 0, 0.244);
+    border-radius: 3px;
+}
+
+.btn {
+    display: flex;
+    justify-content: center;
+}
+
+#btn-primary {
+    width: 220px;
+    height: 38px;
+}

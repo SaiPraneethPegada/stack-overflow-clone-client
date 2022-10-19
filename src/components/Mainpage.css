@@ -1,0 +1,40 @@
+#container {
+    display: grid;
+    grid-template-columns: 70% 30%;
+}
+
+.mainbar {
+    justify-self: stretch;
+}
+
+.headingbar {
+    border-bottom: 1px solid #00000033;
+}
+
+.topheading {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 20px;
+}
+
+.que-details {
+    display: grid;
+    grid-template-columns: 15% 85%;
+    border-bottom: 1px solid #00000033;
+}
+
+.que-title>a {
+    text-decoration: none;
+    font-size: larger;
+}
+
+@media (max-width: 900px) {
+    #container {
+        grid-template-columns: auto;
+    }
+
+    .sidebar {
+        display: none;
+    }
+}
