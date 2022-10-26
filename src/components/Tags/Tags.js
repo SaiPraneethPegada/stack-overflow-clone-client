@@ -1,6 +1,6 @@
 import React from "react";
 
-import LeftBar from "../LeftBar";
+import LeftBar from "../LeftBar/LeftBar";
 import TagsList from "./TagsList";
 import "./Tags.css";
 

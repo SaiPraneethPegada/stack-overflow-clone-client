@@ -1,0 +1,38 @@
+.left-sidebar {
+    box-shadow: 1px 0 0 rgba(0, 0, 0, 0.2);
+    transition: box-shadow ease-in-out 0.1s, transform ease-in-out 0.1s;
+    box-sizing: border-box;
+    font-size: 14px;
+}
+
+.sidebar-container {
+    height: auto;
+    max-width: 100%;
+    margin: 30px 0px;
+    padding: 10px 0px;
+    position: sticky;
+    top: 100px;
+}
+
+.left-components {
+    text-decoration: none;
+    color: #3a3a3a;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    padding-left: 10px;
+    transition: 0.2s;
+    height: 33px;
+}
+
+.left-components:hover {
+    color: black;
+}
+
+.active {
+    font-weight: bolder;
+    color: black;
+    background-color: rgb(239, 239, 239);
+    border-right: solid 3px #ef8236;
+
+}

@@ -1,8 +1,8 @@
 import React from "react";
-import LeftBar from "./LeftBar";
+import LeftBar from "../LeftBar/LeftBar";
 import Mainpage from "./Mainpage";
 
-import "../App.css";
+import "../../App.css";
 
 export default function Homepage() {
   return (

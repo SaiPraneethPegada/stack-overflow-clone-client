@@ -1,10 +1,6 @@
 #container {
     display: grid;
-    grid-template-columns: 70% 30%;
-}
-
-.mainbar {
-    justify-self: stretch;
+    grid-template-columns: 50vw 20vw;
 }
 
 .headingbar {
@@ -29,12 +25,28 @@
     font-size: larger;
 }
 
+.text-nextline {
+    white-space: pre-wrap;
+}
+
 @media (max-width: 900px) {
     #container {
-        grid-template-columns: auto;
+        grid-template-columns: 70vw;
     }
 
     .sidebar {
         display: none;
+    }
+}
+
+@media (max-width: 426px) {
+    #container {
+        grid-template-columns: 100vw;
+    }
+}
+
+@media (max-width: 400px) {
+    #container {
+        grid-template-columns: 120vw;
     }
 }

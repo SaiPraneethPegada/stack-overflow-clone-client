@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import axios from "axios";
-import { url } from "../../App";
+import { API_URL } from "../../App";
 import Button from "@mui/material/Button";
 import "./login.css";
 import icon from "../../assets/icon.png";
@@ -15,26 +15,24 @@ export default function Login() {
 
   let handleSubmit = async () => {
     console.log(email, password);
-
-    let res = await axios.post(`${url}/login`, {
+    
+    let res = await axios.post(`${API_URL}/login`, {
       email,
       password,
     });
 
-    console.log(res.data);
-    console.log(res.data.message);
-
     if (res.data.statusCode === 200) {
       window.localStorage.setItem("token", res.data.token);
-      navigate("/");
       window.localStorage.setItem("displayName", res.data.user.displayName);
+      window.localStorage.setItem("userId", res.data.user._id);
+      navigate("/");
     } else {
       setMessage(res.data.message);
     }
   };
   return (
     <div>
-      <form className="login-form">
+      <form className="login-form d-flex flex-column align-items-center my-5 mx-0">
         <img src={icon} alt="logo" />
         <div>
           <div className="form-inputs">
@@ -55,12 +53,12 @@ export default function Login() {
               onChange={(e) => setPassword(e.target.value)}
             />
           </div>
-          <div className="form-inputs" style={{ textAlign: "right" }}>
+          <div className="form-inputs text-end">
             <Link to="/forgot">Reset Password</Link>
           </div>
-          <div className="btn">
+          <div className="d-flex justify-content-center px-3">
             <Button
-              id="btn-primary"
+              className="w-100 h-50"
               variant="contained"
               size="small"
               onClick={() => handleSubmit()}

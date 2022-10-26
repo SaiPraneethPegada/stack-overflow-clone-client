@@ -1,6 +1,7 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
-import Globe from "../assets/Globe.svg";
+import Globe from "../../assets/Globe.svg";
+import "./LeftBar.css";
 
 export default function LeftBar() {
   return (
@@ -32,7 +33,7 @@ export default function LeftBar() {
           <NavLink
             className="left-components ps-4"
             activeclassname="active"
-            to="/"
+            to="/companies"
           >
             Companies
           </NavLink>

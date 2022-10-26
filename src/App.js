@@ -2,7 +2,7 @@ import "./App.css";
 import { BrowserRouter } from "react-router-dom";
 import NavBar from "./components/NavBar/NavBar";
 import AllRoutes from "./AllRoutes";
-export const url = "http://localhost:8000";
+export const API_URL = "https://stack-overflow-clone-server.herokuapp.com";
 
 function App() {
   return (

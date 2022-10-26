@@ -1,14 +1,18 @@
 import { configureStore } from "@reduxjs/toolkit";
+import QuestionReducer from "../features/QuestionSlice";
+import AuthReducer from "../features/AuthSlice";
 import { setupListeners } from "@reduxjs/toolkit/dist/query";
-import { questionApi } from "../services/Question";
 
 export const Store = configureStore({
   reducer: {
-    [questionApi.reducerPath]: questionApi.reducer,
+    questions: QuestionReducer,
+    auth: AuthReducer,
   },
 
   middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware().concat(questionApi.middleware),
+    getDefaultMiddleware({
+      serializableCheck: false,
+    }),
 });
 
 setupListeners(Store.dispatch);

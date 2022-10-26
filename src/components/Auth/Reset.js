@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
-import { url } from "../../App";
+import { API_URL } from "../../App";
 
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
@@ -34,7 +34,7 @@ export default function Reset() {
 
     if (password === cf_password && password !== "" && cf_password !== "") {
       let res = await axios.post(
-        `${url}/reset_password`,
+        `${API_URL}/reset_password`,
         { password: password },
         { headers: { Authorization: access_token } }
       );

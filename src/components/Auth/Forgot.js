@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
-import { url } from "../../App";
+import { API_URL } from "../../App";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -23,7 +23,7 @@ export default function Forgot() {
     e.preventDefault();
     console.log(email);
     try {
-      let res = await axios.post(`${url}/forgot_password`, { email: email });
+      let res = await axios.post(`${API_URL}/forgot_password`, { email: email });
       if (res.data.statusCode === 200) {
         toast.success(res.data.message);
       } else {

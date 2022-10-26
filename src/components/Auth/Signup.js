@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import { url } from "../../App";
+import { API_URL } from "../../App";
 import icon from "../../assets/icon.png";
 import Button from "@mui/material/Button";
 import "./signup.css";
@@ -17,7 +17,7 @@ export default function Signup() {
   let handleSubmit = async () => {
     console.log(displayName, email, password);
 
-    let res = await axios.post(`${url}/signup`, {
+    let res = await axios.post(`${API_URL}/signup`, {
       displayName,
       email,
       password,
@@ -36,7 +36,7 @@ export default function Signup() {
 
   return (
     <div>
-      <form className="signup-form">
+      <form className="signup-form d-flex flex-column align-items-center my-5 mx-0">
         <img src={icon} alt="logo" />
         <div>
           <div className="form-inputs">
@@ -66,12 +66,13 @@ export default function Signup() {
               onChange={(e) => setPassword(e.target.value)}
             />
           </div>
-          <div className="btn">
+          <div className="d-flex justify-content-center px-3">
             <Button
-              id="btn-primary"
+              className="w-100 h-50"
               variant="contained"
               size="small"
-              onClick={() => handleSubmit()}>
+              onClick={() => handleSubmit()}
+            >
               Sign up
             </Button>
           </div>
