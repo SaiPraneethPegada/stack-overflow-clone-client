@@ -2,7 +2,6 @@ import axios from "axios";
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { API_URL } from "../App";
 const token = localStorage.getItem("token");
-let userPosted = localStorage.getItem("displayName");
 
 export const getQuestions = createAsyncThunk(
   "question/getQuestions",
@@ -25,7 +24,6 @@ export const askQuestion = createAsyncThunk(
         questionTitle,
         questionBody,
         questionTags,
-        userPosted,
       },
       {
         headers: {
