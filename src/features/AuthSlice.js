@@ -19,7 +19,7 @@ export const profile = createAsyncThunk("auth/profile", async () => {
 export const updateProfile = createAsyncThunk(
   "auth/updateProfile",
   async ({ displayName, about, tags }) => {
-    console.log(displayName, about, tags);
+    // console.log(displayName, about, tags);
     try {
       return axios.patch(
         `${API_URL}/update/${id}`,
@@ -48,7 +48,7 @@ const AuthSlice = createSlice({
       state.loading = true;
     },
     [profile.fulfilled]: (state, action) => {
-      console.log(action.payload.data);
+      // console.log(action.payload.data);
       state.loading = false;
       state.userData = action.payload.data.user;
     },

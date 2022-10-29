@@ -50,12 +50,12 @@ export default function Mainpage() {
             </div>
             <div className="topheading">
               <div>{questions?.length} Questions</div>
-              <div className="gap-1 border rounded">
+              {/* <div className="gap-1 border rounded">
                 <Button variant="light" className="">
                   Newest
                 </Button>
                 <Button variant="light">Unanswered</Button>
-              </div>
+              </div> */}
             </div>
           </div>
 
@@ -63,11 +63,14 @@ export default function Mainpage() {
             {questions
               ?.filter((que) => {
                 // console.log(que.questionTitle.toLowerCase());
+                console.log(result);
                 if (result === "") {
+                  // alert("hi");
                   return que;
                 } else if (
                   que.questionTitle.toLowerCase().includes(result.toLowerCase())
                 ) {
+                  // console.log(que);
                   return que;
                 }
                 return false;

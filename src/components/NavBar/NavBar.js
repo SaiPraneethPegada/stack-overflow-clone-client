@@ -7,7 +7,6 @@ import Avatar from "@mui/material/Avatar";
 import { red } from "@mui/material/colors";
 import { useSelector } from "react-redux";
 import icon from "../../assets/icon.png";
-import { getQuestions } from "../../features/QuestionSlice";
 import { profile } from "../../features/AuthSlice";
 import { search } from "../../features/QuestionSlice";
 
@@ -29,21 +28,8 @@ export default function NavBar() {
     navigate("/profile");
   };
 
-  const handlePress = (e) => {
-    console.table("Key Pressed:", e.key);
-    if (searchTerm === "") {
-      if (e.key === "Enter") {
-        dispatch(getQuestions());
-      }
-    }
-  };
-
-  // console.log(searchTerm);
-
   useEffect(() => {
-    if (searchTerm !== "") {
-      dispatch(search(searchTerm));
-    }
+    dispatch(search(searchTerm));
 
     if (token) {
       dispatch(profile());
@@ -68,7 +54,7 @@ export default function NavBar() {
           Products
         </Link>
 
-        <form onKeyDown={handlePress}>
+        <form>
           <input
             type="text"
             placeholder="Search..."
