@@ -14,7 +14,7 @@ export default function Login() {
   const navigate = useNavigate();
 
   let handleSubmit = async () => {
-    console.log(email, password);
+    // console.log(email, password);
     
     let res = await axios.post(`${API_URL}/login`, {
       email,

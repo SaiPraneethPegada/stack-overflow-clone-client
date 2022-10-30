@@ -14,7 +14,7 @@ const EditProfile = ({ user, setSwitch }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(displayName, tags, about);
+    // console.log(displayName, tags, about);
     dispatch(updateProfile({ displayName, about, tags }));
     setSwitch(false);
   };

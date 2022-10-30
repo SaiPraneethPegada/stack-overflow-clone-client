@@ -82,7 +82,7 @@ export default function Question() {
         alert("Please Login to Delete");
       }
     } catch (error) {
-      console.log("In Delete Que", error.message);
+      // console.log("In Delete Que", error.message);
       alert(error.message);
     }
   };

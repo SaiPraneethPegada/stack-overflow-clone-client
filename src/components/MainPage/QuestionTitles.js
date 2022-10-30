@@ -35,7 +35,7 @@ export default function QuestionTitles({ questions, index }) {
         </div>
         <div className="side-details m-1 text-muted">{Number(views)} views</div>
       </div>
-      <div className="que-title" key={index}>
+      <div className="que-title">
         <Link to={`/question/${question._id}`} onClick={() => handleViews()}>
           {question.questionTitle}
         </Link>

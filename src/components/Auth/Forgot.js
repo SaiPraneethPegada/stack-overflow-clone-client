@@ -21,65 +21,71 @@ export default function Forgot() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(email);
+    // console.log(email);
     try {
-      let res = await axios.post(`${API_URL}/forgot_password`, { email: email });
+      let res = await axios.post(`${API_URL}/forgot_password`, {
+        email: email,
+      });
       if (res.data.statusCode === 200) {
         toast.success(res.data.message);
       } else {
         toast.error(res.data.message);
       }
     } catch (error) {
-      console.log(error);
+      alert(error.message);
+      // console.log(error);
     }
   };
   return (
     <>
-    <ToastContainer />
-    <ThemeProvider theme={theme}>
-      <Container component="main" maxWidth="xs">
-        <CssBaseline />
-        <Box
-          sx={{
-            marginTop: 8,
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-          }}>
-          <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
-            <LockOutlinedIcon />
-          </Avatar>
-          <Typography component="h1" variant="h5">
-            Forgot Password??
-          </Typography>
+      <ToastContainer />
+      <ThemeProvider theme={theme}>
+        <Container component="main" maxWidth="xs">
+          <CssBaseline />
           <Box
-            component="form"
-            onSubmit={handleSubmit}
-            noValidate
-            sx={{ mt: 1 }}>
-            <TextField
-              margin="normal"
-              required
-              fullWidth
-              id="email"
-              label="Email Address"
-              name="email"
-              type="email"
-              autoFocus
-              onChange={(e) => setEmail(e.target.value)}
-            />
+            sx={{
+              marginTop: 8,
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+            }}
+          >
+            <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
+              <LockOutlinedIcon />
+            </Avatar>
+            <Typography component="h1" variant="h5">
+              Forgot Password??
+            </Typography>
+            <Box
+              component="form"
+              onSubmit={handleSubmit}
+              noValidate
+              sx={{ mt: 1 }}
+            >
+              <TextField
+                margin="normal"
+                required
+                fullWidth
+                id="email"
+                label="Email Address"
+                name="email"
+                type="email"
+                autoFocus
+                onChange={(e) => setEmail(e.target.value)}
+              />
 
-            <Button
-              type="submit"
-              fullWidth
-              variant="contained"
-              sx={{ mt: 3, mb: 2 }}>
-              Submit
-            </Button>
+              <Button
+                type="submit"
+                fullWidth
+                variant="contained"
+                sx={{ mt: 3, mb: 2 }}
+              >
+                Submit
+              </Button>
+            </Box>
           </Box>
-        </Box>
-      </Container>
-    </ThemeProvider>
+        </Container>
+      </ThemeProvider>
     </>
   );
 }

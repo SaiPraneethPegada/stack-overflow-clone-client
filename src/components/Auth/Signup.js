@@ -15,7 +15,7 @@ export default function Signup() {
   const navigate = useNavigate();
 
   let handleSubmit = async () => {
-    console.log(displayName, email, password);
+    // console.log(displayName, email, password);
 
     let res = await axios.post(`${API_URL}/signup`, {
       displayName,
@@ -30,7 +30,7 @@ export default function Signup() {
       } else {
         setMessage(res.data.error.message);
       }
-      console.log(res.data);
+      // console.log(res.data);
     }
   };
 

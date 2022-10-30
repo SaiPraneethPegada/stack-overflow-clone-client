@@ -22,11 +22,11 @@ export default function Reset() {
   const navigate = useNavigate();
 
   const { access_token } = useParams();
-  console.log(access_token);
+  // console.log(access_token);
 
   const handleReset = async (e) => {
     e.preventDefault();
-    console.log(password, cf_password);
+    // console.log(password, cf_password);
 
     if (password.length < 8) {
       toast.error("Password must be at least 8 characters");

@@ -1,7 +1,7 @@
 import axios from "axios";
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { API_URL } from "../App";
-const token = localStorage.getItem("token");
+// const token = localStorage.getItem("token");
 
 export const getQuestions = createAsyncThunk(
   "question/getQuestions",
@@ -14,46 +14,46 @@ export const getById = createAsyncThunk("question/getById", async ({ id }) => {
   return axios.get(`${API_URL}/questions/get/${id}`);
 });
 
-export const askQuestion = createAsyncThunk(
-  "question/askQuestion",
-  async ({ body }) => {
-    const { questionTitle, questionBody, questionTags } = body;
-    let res = axios.post(
-      `${API_URL}/questions/postQuestion`,
-      {
-        questionTitle,
-        questionBody,
-        questionTags,
-      },
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    );
-    return res;
-  }
-);
+// export const askQuestion = createAsyncThunk(
+//   "question/askQuestion",
+//   async ({ body }) => {
+//     const { questionTitle, questionBody, questionTags } = body;
+//     let res = axios.post(
+//       `${API_URL}/questions/postQuestion`,
+//       {
+//         questionTitle,
+//         questionBody,
+//         questionTags,
+//       },
+//       {
+//         headers: {
+//           Authorization: `Bearer ${token}`,
+//         },
+//       }
+//     );
+//     return res;
+//   }
+// );
 
-export const editQue = createAsyncThunk(
-  "question/editQue",
-  async ({ body, id }) => {
-    const { questionTitle, questionBody, questionTags } = body;
-    return axios.put(
-      `${API_URL}/questions/edit/${id}`,
-      {
-        questionTitle,
-        questionBody,
-        questionTags,
-      },
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    );
-  }
-);
+// export const editQue = createAsyncThunk(
+//   "question/editQue",
+//   async ({ body, id }) => {
+//     const { questionTitle, questionBody, questionTags } = body;
+//     return axios.put(
+//       `${API_URL}/questions/edit/${id}`,
+//       {
+//         questionTitle,
+//         questionBody,
+//         questionTags,
+//       },
+//       {
+//         headers: {
+//           Authorization: `Bearer ${token}`,
+//         },
+//       }
+//     );
+//   }
+// );
 
 const QuestionSlice = createSlice({
   name: "question",
@@ -90,7 +90,6 @@ const QuestionSlice = createSlice({
       state.loading = true;
     },
     [getQuestions.fulfilled]: (state, action) => {
-      // console.log(action.payload);
       state.loading = false;
       state.questionsData = [action.payload.data.allQuestions];
     },
@@ -104,34 +103,34 @@ const QuestionSlice = createSlice({
       state.questionData = [action.payload.data.question];
     },
 
-    [askQuestion.pending]: (state, action) => {
-      state.loading = true;
-    },
-    [askQuestion.fulfilled]: (state, action) => {
-      // console.log(action.payload);
-      state.loading = false;
-      state.postData = action.payload.data;
-      state.error = action.payload.data.error;
-      if (action.payload.data.statusCode === 200) {
-        alert(action.payload.data.message);
-      } else {
-        alert(action.payload.data.message);
-      }
-    },
+    // [askQuestion.pending]: (state, action) => {
+    //   state.loading = true;
+    // },
+    // [askQuestion.fulfilled]: (state, action) => {
+    //   // console.log(action.payload);
+    //   state.loading = false;
+    //   state.postData = action.payload.data;
+    //   state.error = action.payload.data.error;
+    //   if (action.payload.data.statusCode === 200) {
+    //     alert(action.payload.data.message);
+    //   } else {
+    //     alert(action.payload.data.message);
+    //   }
+    // },
 
-    [editQue.pending]: (state, action) => {
-      state.loading = true;
-    },
-    [editQue.fulfilled]: (state, action) => {
-      console.log(action.payload);
-      state.loading = false;
-      state.postData = [action.payload.data];
-      if (action.payload.data.statusCode === 200) {
-        alert(action.payload.data.message);
-      } else {
-        alert(action.payload.data.message);
-      }
-    },
+    // [editQue.pending]: (state, action) => {
+    //   state.loading = true;
+    // },
+    // [editQue.fulfilled]: (state, action) => {
+    //   console.log(action.payload);
+    //   state.loading = false;
+    //   state.postData = [action.payload.data];
+    //   if (action.payload.data.statusCode === 200) {
+    //     alert(action.payload.data.message);
+    //   } else {
+    //     alert(action.payload.data.message);
+    //   }
+    // },
   },
 });
 

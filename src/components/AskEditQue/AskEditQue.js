@@ -1,27 +1,28 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { Spinner } from "react-bootstrap";
-import { askQuestion, editQue, getById } from "../../features/QuestionSlice";
+import { getById } from "../../features/QuestionSlice";
+
+import { increment } from "../../features/QuestionSlice";
 import "./AskEditQue.css";
+import axios from "axios";
+import { API_URL } from "../../App";
 
 export default function AskEditQue() {
   const [questionTitle, setQuestionTitle] = useState("");
   const [questionBody, setQuestionBody] = useState("");
   const [questionTags, setQuestionTags] = useState([]);
+  const [relevant, setRelevant] = useState([]);
+  const [views, setViews] = useState(0);
   const token = localStorage.getItem("token");
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { id } = useParams();
   const { loading, questionData } = useSelector((state) => state.questions);
+  const quantity = useSelector((state) => state.questions.value);
 
-  let body = {
-    questionTitle,
-    questionBody,
-    questionTags,
-  };
-
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (loading) {
       <Spinner animation="grow" />;
@@ -29,14 +30,49 @@ export default function AskEditQue() {
 
     if (id) {
       if (!loading) {
-        dispatch(editQue({ body, id }));
-        navigate("/");
+        let res = await axios.put(
+          `${API_URL}/questions/edit/${id}`,
+          {
+            questionTitle,
+            questionBody,
+            questionTags,
+          },
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        if (res.data.statusCode === 200) {
+          alert(res.data.message);
+          navigate("/");
+        } else {
+          alert(res.data.message);
+        }
       }
     } else {
       if (!loading) {
         if (questionBody && questionTitle !== "") {
-          dispatch(askQuestion({ body }));
-          navigate("/");
+          let res = await axios.post(
+            `${API_URL}/questions/postQuestion`,
+            {
+              questionTitle,
+              questionBody,
+              questionTags,
+            },
+            {
+              headers: {
+                Authorization: `Bearer ${token}`,
+              },
+            }
+          );
+          if (res.data.statusCode === 200) {
+            alert(res.data.message);
+            navigate("/");
+          } else {
+            alert(res.data.message);
+            setRelevant(res.data.question[0]);
+          }
         } else {
           alert("Fill all fields");
         }
@@ -44,6 +80,11 @@ export default function AskEditQue() {
     }
   };
 
+  const handleViews = () => {
+    dispatch(increment(relevant));
+  };
+
+  // console.log(relevant);
   useEffect(() => {
     if (id) {
       dispatch(getById({ id }));
@@ -55,6 +96,13 @@ export default function AskEditQue() {
         }
       }
     }
+
+    quantity.map((item) => {
+      if (item._id === relevant._id) {
+        return setViews(item.count);
+      }
+      return false;
+    });
     // eslint-disable-next-line
   }, [id, dispatch]);
 
@@ -85,6 +133,7 @@ export default function AskEditQue() {
                 value={questionTitle}
                 placeholder="e.g. Is there an R function for finding the index of an element in a vector?"
                 onChange={(e) => setQuestionTitle(e.target.value)}
+                required
               />
             </label>
             <label htmlFor="ask-ques-body" className="my-2">
@@ -100,6 +149,7 @@ export default function AskEditQue() {
                 cols="30"
                 rows="10"
                 onChange={(e) => setQuestionBody(e.target.value)}
+                required
               ></textarea>
             </label>
             <label htmlFor="ask-ques-tags" className="my-2">
@@ -126,6 +176,49 @@ export default function AskEditQue() {
             <></>
           )}
         </form>
+
+        {relevant?.questionTitle === questionTitle ||
+        relevant?.questionBody === questionBody ? (
+          <div className="shadow rounded que-details py-5">
+            <div style={{ fontSize: "13px" }} className="m-2 text-end pe-2">
+              <div className="side-details m-1">
+                {Number(relevant?.upVote.length) -
+                  Number(relevant?.downVote.length)}{" "}
+                votes
+              </div>
+              <div className="side-details m-1 text-nowrap">
+                {relevant?.answer.length} answers
+              </div>
+              <div className="side-details m-1 text-muted">
+                {Number(views)} views
+              </div>
+            </div>
+            <div>
+              <Link
+                to={`/question/${relevant?._id}`}
+                onClick={() => handleViews()}
+              >
+                {relevant?.questionTitle}
+              </Link>
+              <div className="description-text my-2">
+                {relevant?.questionBody}
+              </div>
+              <div className="d-flex mt-2 gap-2" style={{ fontSize: "15px" }}>
+                {relevant?.questionTags?.map((tag, i) => (
+                  <div
+                    key={i}
+                    className="tagsDesign p-1"
+                    style={{ fontSize: "12px" }}
+                  >
+                    {tag}
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        ) : (
+          <div></div>
+        )}
       </div>
     </div>
   );

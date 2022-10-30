@@ -63,7 +63,6 @@ export default function Mainpage() {
             {questions
               ?.filter((que) => {
                 // console.log(que.questionTitle.toLowerCase());
-                console.log(result);
                 if (result === "") {
                   // alert("hi");
                   return que;
