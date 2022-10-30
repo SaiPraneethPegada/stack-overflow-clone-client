@@ -1,16 +1,22 @@
-import React, { useEffect } from "react";
+import Button from "react-bootstrap/Button";
+import { Spinner } from "react-bootstrap";
+import React, { useEffect, useState } from "react";
+import ReactPaginate from "react-paginate";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import Button from "react-bootstrap/Button";
-import "../../App.css";
-import "./index.css";
+
 import RightSidebar from "../RightBar/RightSidebar";
 import { getQuestions } from "../../features/QuestionSlice";
-import { Spinner } from "react-bootstrap";
 import QuestionTitles from "./QuestionTitles";
+import "../../App.css";
+import "./index.css";
 
 export default function Mainpage() {
   let questions = [];
+  const [pageCount, setPageCount] = useState(0);
+  const [itemOffset, setItemOffset] = useState(0);
+  const questionsPerPage = 5;
+
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { loading, questionsData } = useSelector((state) => state.questions);
@@ -20,12 +26,40 @@ export default function Mainpage() {
 
   if (!loading) {
     questions = questionsData[0];
-    // console.log(questions);
   }
+
+  const displayQuestions = questions
+    ?.slice(itemOffset, itemOffset + questionsPerPage)
+    .map((que, index) => (
+      <QuestionTitles questions={que} index={index} key={index} />
+    ));
+
+  const filteredQuestions = questions
+    ?.filter((que) => {
+      if (result === "") {
+        return que;
+      } else if (
+        que?.questionTitle?.toLowerCase().includes(result.toLowerCase())
+      ) {
+        // console.log(que);
+        return que;
+      }
+      return false;
+    })
+    .map((que, index) => (
+      <QuestionTitles questions={que} index={index} key={index} />
+    ));
 
   useEffect(() => {
     dispatch(getQuestions());
-  }, [dispatch]);
+    setPageCount(Math.ceil(questions?.length / questionsPerPage));
+    // eslint-disable-next-line
+  }, [dispatch, questionsPerPage]);
+
+  const changePage = ({ selected }) => {
+    const newOffset = (selected * questionsPerPage) % questions?.length;
+    setItemOffset(newOffset);
+  };
 
   if (loading) {
     return (
@@ -60,23 +94,27 @@ export default function Mainpage() {
           </div>
 
           <div className="que-container">
-            {questions
-              ?.filter((que) => {
-                // console.log(que.questionTitle.toLowerCase());
-                if (result === "") {
-                  // alert("hi");
-                  return que;
-                } else if (
-                  que.questionTitle.toLowerCase().includes(result.toLowerCase())
-                ) {
-                  // console.log(que);
-                  return que;
-                }
-                return false;
-              })
-              ?.map((que, index) => (
-                <QuestionTitles questions={que} index={index} key={index} />
-              ))}
+            {result === "" ? displayQuestions : filteredQuestions}
+          </div>
+          <div className="m-5">
+            <ReactPaginate
+              breakLabel="..."
+              previousLabel={"Previous"}
+              nextLabel={"Next"}
+              pageCount={pageCount}
+              onPageChange={changePage}
+              pageClassName="page-item"
+              pageLinkClassName="page-link"
+              previousClassName="page-item"
+              previousLinkClassName="page-link"
+              nextClassName="page-item"
+              nextLinkClassName="page-link"
+              breakClassName="page-item"
+              breakLinkClassName="page-link"
+              containerClassName="pagination"
+              activeClassName="active"
+              renderOnZeroPageCount={null}
+            />
           </div>
         </div>
         <div className="sidebar">
