@@ -19,6 +19,8 @@ import upvote from "../../assets/sort-up.svg";
 export default function Question() {
   let vote = "";
   let question = [];
+  const [upVote, setUpVote] = useState(0);
+  const [downVote, setDownVote] = useState(0);
   const [views, setViews] = useState("");
   const token = localStorage.getItem("token");
   const userId = localStorage.getItem("userId");
@@ -89,19 +91,26 @@ export default function Question() {
 
   useEffect(() => {
     dispatch(getById({ id }));
+  }, [id, dispatch]);
 
-    if (!loading) {
-      if (question !== []) {
-        quantity.map((item) => {
-          if (item._id === question?._id) {
-            return setViews(item.count);
-          }
-          return false;
-        });
-      }
+  useEffect(() => {
+    if (question?._id) {
+      quantity.map((item) => {
+        if (item._id === question?._id) {
+          return setViews(item.count);
+        }
+        return false;
+      });
     }
-    // eslint-disable-next-line
-  }, [id, views, dispatch]);
+  }, [views, quantity, question?._id]);
+
+  useEffect(() => {
+    setUpVote(question?.upVote?.length);
+    setDownVote(question?.downVote?.length);
+  }, [question?.upVote, question?.downVote, dispatch]);
+
+  let votesCount = upVote - downVote;
+  // console.log(votesCount);
 
   if (loading) {
     return (
@@ -153,9 +162,7 @@ export default function Question() {
                       onClick={() => handleVote("positive")}
                     />
                   </button>
-                  <div>
-                    {question?.upVote?.length - question?.downVote?.length}
-                  </div>
+                  <div>{votesCount}</div>
                   <button className="border-0 btn-bg">
                     <img
                       src={downvote}

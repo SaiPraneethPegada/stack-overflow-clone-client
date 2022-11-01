@@ -14,7 +14,7 @@ import "./index.css";
 export default function Mainpage() {
   let questions = [];
   const [pageCount, setPageCount] = useState(0);
-  const [itemOffset, setItemOffset] = useState(0);
+  const [itemOffset, setItemOffset] = useState(0); // itemOffset is the first index of the questions in current page.
   const questionsPerPage = 5;
 
   const navigate = useNavigate();
@@ -28,11 +28,13 @@ export default function Mainpage() {
     questions = questionsData[0];
   }
 
-  const displayQuestions = questions
-    ?.slice(itemOffset, itemOffset + questionsPerPage)
-    .map((que, index) => (
-      <QuestionTitles questions={que} index={index} key={index} />
-    ));
+  const displayQuestions = () => {
+    return questions
+      ?.slice(itemOffset, itemOffset + questionsPerPage)
+      .map((que, index) => (
+        <QuestionTitles questions={que} index={index} key={index} />
+      ));
+  };
 
   const filteredQuestions = questions
     ?.filter((que) => {
@@ -52,9 +54,13 @@ export default function Mainpage() {
 
   useEffect(() => {
     dispatch(getQuestions());
-    setPageCount(Math.ceil(questions?.length / questionsPerPage));
     // eslint-disable-next-line
-  }, [dispatch, questionsPerPage]);
+  }, [dispatch]);
+
+  useEffect(() => {
+    setPageCount(Math.ceil(questions?.length / questionsPerPage));
+    // displayQuestions();
+  }, [questionsPerPage, questions?.length]);
 
   const changePage = ({ selected }) => {
     const newOffset = (selected * questionsPerPage) % questions?.length;
@@ -94,14 +100,14 @@ export default function Mainpage() {
           </div>
 
           <div className="que-container">
-            {result === "" ? displayQuestions : filteredQuestions}
+            {result === "" ? displayQuestions() : filteredQuestions}
           </div>
           <div className="m-5">
             <ReactPaginate
               breakLabel="..."
               previousLabel={"Previous"}
               nextLabel={"Next"}
-              pageCount={pageCount}
+              pageCount={Number(pageCount)}
               onPageChange={changePage}
               pageClassName="page-item"
               pageLinkClassName="page-link"
