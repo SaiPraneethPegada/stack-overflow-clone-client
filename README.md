@@ -1,5 +1,4 @@
 # Stack Overflow-clone-client
-<base target="_blank">
 
 ## [Live Website](https://stack-overflow-clone-client.netlify.app)  |  [Backend Source_Code](https://github.com/SaiPraneethPegada/stack-overflow-clone-server.git)
 
