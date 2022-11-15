@@ -11,6 +11,8 @@ import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { ToastContainer, toast } from "react-toastify";
+import Spinner from "react-bootstrap/Spinner";
+
 import "react-toastify/dist/ReactToastify.css";
 
 const theme = createTheme();
@@ -18,6 +20,7 @@ const theme = createTheme();
 export default function Reset() {
   const [password, setPassword] = useState("");
   const [cf_password, setCf_password] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const navigate = useNavigate();
 
@@ -25,11 +28,13 @@ export default function Reset() {
   // console.log(access_token);
 
   const handleReset = async (e) => {
+    setLoading(true);
     e.preventDefault();
     // console.log(password, cf_password);
 
     if (password.length < 8) {
       toast.error("Password must be at least 8 characters");
+      setLoading(false);
     }
 
     if (password === cf_password && password !== "" && cf_password !== "") {
@@ -47,6 +52,7 @@ export default function Reset() {
     } else {
       toast.error("Both Passwords should match");
     }
+    setLoading(false);
   };
   return (
     <>
@@ -60,7 +66,8 @@ export default function Reset() {
               display: "flex",
               flexDirection: "column",
               alignItems: "center",
-            }}>
+            }}
+          >
             <Typography component="h1" variant="h5">
               Reset Password!!
             </Typography>
@@ -68,7 +75,8 @@ export default function Reset() {
               component="form"
               onSubmit={handleReset}
               noValidate
-              sx={{ mt: 1 }}>
+              sx={{ mt: 1 }}
+            >
               <TextField
                 margin="normal"
                 required
@@ -95,8 +103,13 @@ export default function Reset() {
                 type="submit"
                 fullWidth
                 variant="contained"
-                sx={{ mt: 3, mb: 2 }}>
-                Submit
+                sx={{ mt: 3, mb: 2 }}
+              >
+                {loading ? (
+                  <Spinner animation="border" variant="light" />
+                ) : (
+                  "Reset Password"
+                )}
               </Button>
             </Box>
           </Box>

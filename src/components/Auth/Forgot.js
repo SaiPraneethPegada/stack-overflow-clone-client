@@ -4,24 +4,27 @@ import { API_URL } from "../../App";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
 import TextField from "@mui/material/TextField";
 import Box from "@mui/material/Box";
-import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
+import Spinner from "react-bootstrap/Spinner";
+import icon from "../../assets/icon.png";
 
 const theme = createTheme();
 
 export default function Forgot() {
   const [email, setEmail] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (e) => {
+    setLoading(true);
     e.preventDefault();
     // console.log(email);
+
     try {
       let res = await axios.post(`${API_URL}/forgot_password`, {
         email: email,
@@ -35,6 +38,7 @@ export default function Forgot() {
       alert(error.message);
       // console.log(error);
     }
+    setLoading(false);
   };
   return (
     <>
@@ -50,9 +54,7 @@ export default function Forgot() {
               alignItems: "center",
             }}
           >
-            <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
-              <LockOutlinedIcon />
-            </Avatar>
+            <img src={icon} alt="logo" className="mb-3" />
             <Typography component="h1" variant="h5">
               Forgot Password??
             </Typography>
@@ -80,7 +82,11 @@ export default function Forgot() {
                 variant="contained"
                 sx={{ mt: 3, mb: 2 }}
               >
-                Submit
+                {loading ? (
+                  <Spinner animation="border" variant="light" />
+                ) : (
+                  "Submit"
+                )}
               </Button>
             </Box>
           </Box>

@@ -4,6 +4,8 @@ import axios from "axios";
 import { API_URL } from "../../App";
 import icon from "../../assets/icon.png";
 import Button from "@mui/material/Button";
+import Spinner from "react-bootstrap/Spinner";
+
 import "./signup.css";
 
 export default function Signup() {
@@ -11,12 +13,13 @@ export default function Signup() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [message, setMessage] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const navigate = useNavigate();
 
   let handleSubmit = async () => {
     // console.log(displayName, email, password);
-
+    setLoading(true);
     let res = await axios.post(`${API_URL}/signup`, {
       displayName,
       email,
@@ -32,6 +35,7 @@ export default function Signup() {
       }
       // console.log(res.data);
     }
+    setLoading(false);
   };
 
   return (
@@ -73,7 +77,11 @@ export default function Signup() {
               size="small"
               onClick={() => handleSubmit()}
             >
-              Sign up
+              {loading ? (
+                <Spinner animation="border" variant="light" />
+              ) : (
+                "Sign up"
+              )}
             </Button>
           </div>
         </div>
