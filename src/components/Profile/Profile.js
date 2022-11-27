@@ -15,7 +15,6 @@ function Profile() {
   const token = localStorage.getItem("token");
   const user = useSelector((state) => state.auth.userData);
   const { loading } = useSelector((state) => state.auth);
-  console.log(loading);
   // console.log(user);
 
   return (
